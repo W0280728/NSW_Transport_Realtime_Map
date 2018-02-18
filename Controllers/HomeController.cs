@@ -25,8 +25,32 @@ namespace nsw_pt_map.Controllers
 
         public IActionResult Index()
         {
-            ViewData["GoogleKey"] = System.Configuration.ConfigurationManager.AppSettings["GoogleMapsAPIKey"].ToString();
-            return View();
+            FeedMessage trainFeed;
+            var cacheKey = "TrainFeed";
+
+            // Look for cache key.
+            if (!_cache.TryGetValue(cacheKey, out trainFeed))
+            {
+                // Key not in cache, so get data.
+                trainFeed = NSW_Transport_API.Get_Trains();
+
+                // Set cache options.
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    // Keep in cache for this time, reset time if accessed.
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(UPDATE_INTERVAL_SECONDS));
+
+
+                // Save data in cache.
+                _cache.Set(cacheKey, trainFeed, cacheEntryOptions);
+            }
+
+            var trainsForView = PrepareVehiclesForViewCollectionFromFeed(feed: trainFeed, vehicleType: TRAIN);
+
+            string GoogleScriptSource = string.Format("<script src='https://maps.google.com/maps/api/js?key={0}'></script>", System.Configuration.ConfigurationManager.AppSettings["GoogleMapsAPIKey"].ToString());
+
+            ViewData["GoogleMapsAPIKey"] = GoogleScriptSource;
+
+            return View(trainsForView);
         }
 
         public VehicleViewModelCollection updateTrains()

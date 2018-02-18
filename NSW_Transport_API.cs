@@ -17,7 +17,8 @@ namespace nsw_pt_map
             {
                 FeedMessage feed = Serializer.Deserialize<FeedMessage>(req.GetResponse().GetResponseStream());
                 return feed;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.WriteLine(e);
                 return new FeedMessage();

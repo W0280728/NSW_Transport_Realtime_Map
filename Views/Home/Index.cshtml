@@ -1,7 +1,7 @@
 ﻿@model nsw_pt_map.Models.VehicleViewModelCollection
-
 <!--Google Maps-->
-<script src="https://maps.google.com/maps/api/js?key=@ViewData["GoogleMapsAPIKey"]"></script>
+@Html.Raw(ViewData["GoogleMapsAPIKey"])
+
 
 <!-- Script for collecting vehicle information and rendering it on the map-->
 <script src="~/js/vehicles.js"></script>
