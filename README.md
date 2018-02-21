@@ -33,7 +33,7 @@ Open your favourite broswser and go to localhost:5000
 
 ## Authors
 
-* **Campbell Bartlett** - *Everything so far!*
+* **Campbell Bartlett** *
 
 ## License
 
