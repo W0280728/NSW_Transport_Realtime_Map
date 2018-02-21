@@ -41,6 +41,10 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Change log
 
+*0.2 Fixed flashing markers
+Fixed an issue where the map markers would flash every second, even if they werent moving. This is now fixed and markers on the map only flash
+if they move to a new location.
+
 * 0.1 Initial Commit
 This version is my first commit. If you download it and run it you will only see realtime train updates. You can change it by chaning which
 of the NSW Open Data API endpoints you hit. I plan on adding a way for a user to select which services they are looking at in a future

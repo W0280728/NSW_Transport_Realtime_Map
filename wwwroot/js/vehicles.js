@@ -33,20 +33,22 @@ function update_map(map, data) {
 
         var label = vehicles[i].label;
 
-        var vehicle_updated = false;
-
-        if (!markers[i]) {
+        if (typeof markers[i] == "undefined") {
             var marker = new google.maps.Marker({
                 position: vehicle_location,
                 map: map,
+                optimized: false,
+                draggable: true,
                 title: label
             });
+            marker.setMap(map);
         } else {
-            marker = markers[i];
-            if (vehicle_location != marker.position) {
-                vehicle_updated = true;
-                marker.position = vehicle_location;
+            if (markers[i].position.toString() != vehicle_location.toString()){
+                markers[i].position = vehicle_location;
+                markers[i].setMap(map);
             }
+            markers[i].position = vehicle_location;
+            marker = markers[i];
         }
 
         var contentString = '<p id="firstHeading" class="firstHeading">' + vehicles[i].label + '</p>'
@@ -59,9 +61,7 @@ function update_map(map, data) {
             var marker_map = this.getMap();
             this.info.open(marker_map, this);
         });
-        if (vehicle_updated) {
-            marker.setMap(map);
-        }
+       
 
         if (markers.indexOf(marker) == -1) {
             markers.push(marker);
@@ -73,6 +73,3 @@ function update_map(map, data) {
 }
 
 google.maps.event.addDomListener(window, 'load', init_map);
-
-// Initialize maps
-google.maps.event.addDomListener(window, 'load', regular_map);
